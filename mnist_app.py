@@ -16,16 +16,17 @@ st.set_page_config(
 st.title("필기체 숫자 인식기")
 st.markdown("손으로 쓴 숫자 이미지를 업로드하면 AI가 어떤 숫자인지 예측합니다.")
 
-@st.cache_resource                # 아래의 큰 모델을 미리 메모리에 올려놓기 위한 데코레이터
+@st.cache_resource      # 아래의 큰 모델을 미리 메모리에 올려놓기 위한 데코레이터
 def load_mnist_model():
     """사전 훈련된 MNIST 모델을 로드합니다."""
     try:
-        model = load_model("model/mnist_classifier.h5")       # 깃허브의 모델 불러오기  
+        model = load_model("model/mnist_classifier.h5")       # 깃허브의 모델 불러오기
         return model
     except Exception as e:
         st.error(f"모델 로드 중 오류 발생: {e}")
         return None
 
+# 이미지 전처리 함수
 def preprocess_image(image):
     """이미지를 MNIST 모델 입력 형식에 맞게 전처리합니다."""
     # 이미지를 흑백으로 변환
@@ -35,11 +36,11 @@ def preprocess_image(image):
     # 이미지를 numpy 배열로 변환
     img_array = np.array(image)
     # 픽셀값 반전 (MNIST 데이터셋은 검은 배경에 흰색 숫자)
-    img_array = 255 - img_array
+    # img_array = 255 - img_array
     # 정규화 (0-1 범위로)
     img_array = img_array / 255.0
     # 모델 입력 형태로 변환
-    img_array = img_array.reshape(1, 28, 28, 1)
+    img_array = img_array.reshape(1, 28, 28, 1)     # 4차원으로 바꿔줌
     return img_array
 
 # 모델 로드
