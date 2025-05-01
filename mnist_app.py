@@ -16,11 +16,11 @@ st.set_page_config(
 st.title("필기체 숫자 인식기")
 st.markdown("손으로 쓴 숫자 이미지를 업로드하면 AI가 어떤 숫자인지 예측합니다.")
 
-@st.cache_resource
+@st.cache_resource                # 아래의 큰 모델을 미리 메모리에 올려놓기 위한 데코레이터
 def load_mnist_model():
     """사전 훈련된 MNIST 모델을 로드합니다."""
     try:
-        model = load_model("mnist_classifier.h5")
+        model = load_model("model/mnist_classifier.h5")       # 깃허브의 모델 불러오기  
         return model
     except Exception as e:
         st.error(f"모델 로드 중 오류 발생: {e}")
